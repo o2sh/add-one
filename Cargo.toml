@@ -1,0 +1,6 @@
+[package]
+name = "add-one"
+version = "0.1.0"
+authors = ["02sh"]
+
+[dependencies]
