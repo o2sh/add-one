@@ -1,6 +1,6 @@
 # add-one
 
-> Returns n + 1, with n a 32 bit integer.
+> Returns n + 1.
 
 ## Usage
 
