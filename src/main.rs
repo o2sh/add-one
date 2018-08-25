@@ -5,15 +5,26 @@ use num_bigint::{BigInt, ParseBigIntError};
 use std::env;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let mut args = env::args();
 
-    if args.len() == 1 {
-        println!("No input");
+    if args.next().is_none() {
+        eprintln!("Too few arguments. Expected program name and a single argument.");
         return;
     };
 
-    let input_str = &args[1];
-    let output_str = add_one(input_str);
+    let input_str = if let Some(arg) = args.next() {
+        arg
+    } else {
+        eprintln!("Too few arguments. Expected a single argument.");
+        return;
+    };
+
+    if args.next().is_some() {
+        eprintln!("Too many arguments. Expected a single argument.");
+        return;
+    };
+
+    let output_str = add_one(&input_str);
 
     match output_str {
         Ok(v) => println!("{}", v),
