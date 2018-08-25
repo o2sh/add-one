@@ -1,2 +1,10 @@
 # add-one
-add one to a number
+
+> Returns n + 1.
+
+## Usage
+
+```sh
+$ cargo run 12
+$ 13
+```
