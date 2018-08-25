@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["02sh"]
 
 [dependencies]
+num-bigint = "0.2"
+num-traits = "^0.2"
