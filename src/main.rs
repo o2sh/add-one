@@ -26,5 +26,7 @@ fn add_one(number_str: &str) -> Result<BigInt, ParseBigIntError> {
 
 #[test]
 fn it_works() {
-    assert_eq!(add_one("2").unwrap(),BigInt::from_u64(3).unwrap())
+    assert_eq!(add_one("2").unwrap(), BigInt::from_i64(3).unwrap());
+    assert_eq!(add_one("-11").unwrap(), BigInt::from_i64(-10).unwrap());
+    assert_eq!(add_one("1256146513513224524524524524522452165841613615616516516").unwrap(), "1256146513513224524524524524522452165841613615616516517".parse::<BigInt>().unwrap());
 }
