@@ -28,7 +28,7 @@ fn main() {
 
     match output_str {
         Ok(v) => println!("{}", v),
-        Err(e) => println!("Bad Input: {}", e),
+        Err(e) => eprintln!("Bad Input: {}", e),
     }
 }
 
