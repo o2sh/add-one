@@ -1,7 +1,9 @@
 [package]
 name = "add-one"
+description = "Adds one to a number"
 version = "0.1.0"
 authors = ["02sh"]
+license = "MIT"
 
 [dependencies]
 num-bigint = "0.2"
