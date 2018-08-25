@@ -1,8 +1,9 @@
 extern crate num_bigint;
 extern crate num_traits;
+extern crate add_one;
 
-use num_bigint::{BigInt, ParseBigIntError};
 use std::env;
+use add_one::add_one;
 
 fn main() {
     let mut args = env::args();
@@ -32,14 +33,11 @@ fn main() {
     }
 }
 
-fn add_one(number_str: &str) -> Result<BigInt, ParseBigIntError> {
-    number_str.parse::<BigInt>().map(|n| n + 1)
-}
-
 #[cfg(test)]
 mod tests {
-    use num_traits::FromPrimitive;
-    use super::*;  
+    use num_traits::FromPrimitive; 
+    use num_bigint::BigInt;
+    use super::*; 
     #[test] 
     fn it_works() {
         assert_eq!(add_one("2").unwrap(), BigInt::from_i64(3).unwrap());
@@ -52,3 +50,4 @@ mod tests {
         );
     }
 }
+
