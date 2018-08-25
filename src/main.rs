@@ -12,20 +12,17 @@ fn main() {
         return;
     };
 
-    let i = &args[1];
-    let o = add_one(i);
+    let input_str = &args[1];
+    let output_str = add_one(input_str);
 
-    match o {
+    match output_str {
         Ok(v) => println!("{}", v),
         Err(e) => println!("Bad Input: {}", e),
     }
 }
 
 fn add_one(number_str: &str) -> Result<BigInt, ParseBigIntError> {
-    match number_str.parse::<BigInt>() {
-        Ok(n) => Ok(n + 1),
-        Err(err) => Err(err),
-    }
+    number_str.parse::<BigInt>().map(|n| n + 1)
 }
 
 #[cfg(test)]
