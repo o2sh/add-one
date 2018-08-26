@@ -35,6 +35,13 @@ pub fn add_n(x: &mut usize, n: usize) {
 }
 ```
 
+or 
+
+```sh
+$ cargo run 12
+$ 13
+```
+
 ## Compatibility
 
 The `add-one` crate is tested for rustc 1.26 and greater.
