@@ -1,6 +1,6 @@
 [package]
 name = "add-one"
 description = "Adds one to a number"
-version = "0.2"
+version = "0.2.0"
 authors = ["02sh"]
 license = "MIT"
