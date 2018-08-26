@@ -53,7 +53,7 @@ $ 13
 
 Licensed under
 
- * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+ * MIT license ([LICENSE.md](LICENSE.md) or http://opensource.org/licenses/MIT)
 
 ## Compatibility
 
