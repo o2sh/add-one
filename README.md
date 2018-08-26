@@ -49,6 +49,12 @@ $ cargo run 12
 $ 13
 ```
 
+## License
+
+Licensed under
+
+ * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+
 ## Compatibility
 
 The `add-one` crate is tested for rustc 1.26 and greater.
