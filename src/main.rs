@@ -3,6 +3,7 @@ extern crate add_one;
 use add_one::add_one;
 use std::env;
 use std::io::stdout;
+use std::process::exit;
 
 fn main() {
     let mut args = env::args();
@@ -26,6 +27,9 @@ fn main() {
 
     match add_one(input_str.as_bytes(), &mut stdout()) {
         Ok(()) => println!(),
-        Err(e) => eprintln!("Error: {}", e),
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            exit(1);
+        }
     }
 }
