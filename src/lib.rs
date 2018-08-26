@@ -3,12 +3,12 @@ use std::io;
 pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Error> {
     // Parse the leading '-' for negative numbers.
     let (minus, digits) = match digits.split_first() {
-        Some((b'-', digits)) => (true, digits), // Negative number
+        Some((&b'-', digits)) => (true, digits), // Negative number
         _ => (false, digits),
     };
 
     // Validate (ASCII) digits.
-    if digits.is_empty() || !digits.iter().all(u8::is_ascii_digit) {
+    if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9') {
         return Err(io::Error::new(
             io::ErrorKind::InvalidInput.into(),
             "Invalid characters in input".to_string()
