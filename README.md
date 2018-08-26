@@ -28,9 +28,16 @@ extern crate add_one;
 extern crate add_one;
 use add_one::add_one;
 
-pub fn add_n(x: &mut usize, n: usize) {
-    for _ in 0..usize {
-        *x = add_one(x);
+use std::str;
+
+fn main() {
+    let mut bytes = Vec::new();
+
+    match add_one("123".as_bytes(), &mut bytes) {
+        Ok(()) => println!("{}", str::from_utf8(&bytes).unwrap()),
+        Err(e) => {
+            eprintln!("Error: {}", e);
+        }
     }
 }
 ```
