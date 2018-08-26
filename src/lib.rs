@@ -1,3 +1,29 @@
+//! This add-one crate is meant to give you the opportunity to add one to a number.
+//! 
+//! # Examples
+//! 
+//! ```
+//!extern crate add_one;
+//!use add_one::add_one;
+//!
+//!use std::str;
+//!
+//!fn main() {
+//!    let mut bytes = Vec::new();
+//!
+//!    match add_one("123".as_bytes(), &mut bytes) {
+//!        Ok(()) => println!("{}", str::from_utf8(&bytes).unwrap()),
+//!        Err(e) => {
+//!            eprintln!("Error: {}", e);
+//!        }
+//!    }
+//!}
+//! ```
+//!
+//! ## Compatibility
+//!
+//! The `add-one` crate is tested for rustc 1.26 and greater.
+
 use std::io;
 
 pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Error> {
