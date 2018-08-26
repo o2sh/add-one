@@ -53,7 +53,7 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     Ok(())
 }
 
-#[cfg(test)]
+#[test]
 fn add_one_test() {
     fn test(num: &str, result: &str) {
         use std::str::from_utf8;
