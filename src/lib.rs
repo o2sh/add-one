@@ -10,7 +10,7 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     // Validate (ASCII) digits.
     if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9') {
         return Err(io::Error::new(
-            io::ErrorKind::InvalidInput.into(),
+            io::ErrorKind::InvalidInput,
             "Invalid characters in input".to_string()
         ));
     }
