@@ -33,8 +33,14 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
         _ => (false, digits),
     };
 
+
+    let z = match digits.binary_search(&b'.') {
+        Ok(t) => t,
+        _ => digits.len(),
+    };
+
     // Validate (ASCII) digits.
-    if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9') {
+    if digits.is_empty() || !digits[..z].iter().all(|&c| c >= b'0' && c <= b'9') {
         return Err(io::Error::new(
             io::ErrorKind::InvalidInput,
             "Invalid characters in input".to_string()
@@ -45,8 +51,8 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     let digits = &digits[digits.iter().position(|&c| c != b'0').unwrap_or(digits.len())..];
 
     // Find any trailing 9's (when positive) or 0's (when negative) which will carry the carry bit.
-    let (prefix, trailing) = digits.split_at(
-        digits.iter()
+    let (prefix, trailing) = digits[..z].split_at(
+        digits[..z].iter()
             .rposition(|&c| c != if minus { b'0' } else { b'9' })
             .map_or(0, |x| x + 1) // The position *after* the last non-nine/zero.
     );
@@ -76,6 +82,7 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     for _ in 0..trailing.len() {
         output.write_all(if minus { b"9" } else { b"0" })?;
     }
+    output.write_all(&digits[z..])?;
     Ok(())
 }
 
