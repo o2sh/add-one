@@ -34,12 +34,37 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     };
 
     // Validate (ASCII) digits.
-    if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9') {
+    if digits.is_empty() || !digits.iter().all(|&c| (c >= b'0' && c <= b'9') || c == b'.') {
         return Err(io::Error::new(
             io::ErrorKind::InvalidInput,
             "Invalid characters in input".to_string()
         ));
     }
+
+    let decimal_count = digits.iter().filter(|&c| *c == b'.').count();
+
+    let is_decimal = if decimal_count > 1 {
+        return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "More than one decimal point in input".to_string()
+        ));
+    } else if decimal_count == 1{
+        true
+    } else {
+        false
+    };
+
+    // Split into whole numbers and decimal parts
+    
+    let (digits, decimals) = if is_decimal {
+        digits.split_at(
+            digits.iter()
+                .rposition(|&c| c == b'.')
+                .map_or(0, |x| x)
+        )
+    } else {
+        (digits, &[b'0'][..])
+    };
 
     // Remove any leading zeros.
     let digits = &digits[digits.iter().position(|&c| c != b'0').unwrap_or(digits.len())..];
@@ -75,6 +100,11 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     }
     for _ in 0..trailing.len() {
         output.write_all(if minus { b"9" } else { b"0" })?;
+    }
+    if is_decimal {
+        for c in decimals {
+            output.write_all(&[*c][..])?;
+        }
     }
     Ok(())
 }
@@ -116,5 +146,17 @@ fn add_one_test() {
     test(
         "-1237801293471034709342345050491203491230949139249123940000000",
         "-1237801293471034709342345050491203491230949139249123939999999"
+    );
+    test(
+        "123.456",
+        "124.456"
+    );
+    test(
+        "-12832.1235921",
+        "-12831.1235921"
+    );
+    test(
+        "0000123124.00001",
+        "123125.00001"
     );
 }
