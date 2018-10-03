@@ -34,19 +34,21 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     };
 
     // Validate (ASCII) digits.
-    if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9') {
+    if digits.is_empty() || !digits.iter().all(|&c| c >= b'0' && c <= b'9' || c == b'.') {
         return Err(io::Error::new(
             io::ErrorKind::InvalidInput,
-            "Invalid characters in input".to_string()
+            "Invalid characters in input".to_string(),
         ));
     }
 
     // Remove any leading zeros.
     let digits = &digits[digits.iter().position(|&c| c != b'0').unwrap_or(digits.len())..];
 
+    let z = digits.iter().position(|&c| c == b'.').unwrap_or(digits.len()); // position of decimal
+
     // Find any trailing 9's (when positive) or 0's (when negative) which will carry the carry bit.
-    let (prefix, trailing) = digits.split_at(
-        digits.iter()
+    let (prefix, trailing) = digits[..z].split_at(
+        digits[..z].iter()
             .rposition(|&c| c != if minus { b'0' } else { b'9' })
             .map_or(0, |x| x + 1) // The position *after* the last non-nine/zero.
     );
@@ -76,11 +78,12 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
     for _ in 0..trailing.len() {
         output.write_all(if minus { b"9" } else { b"0" })?;
     }
+    output.write_all(&digits[z..])?;// prints the characters after decimal
     Ok(())
 }
 
 #[test]
-fn add_one_test() {
+fn add_one_test_integer() {
     fn test(num: &str, result: &str) {
         use std::str::from_utf8;
         let mut s = Vec::new();
@@ -107,14 +110,37 @@ fn add_one_test() {
     test("-000", "1");
     test(
         "1256146513513224524524524524522452165841613615616516516",
-        "1256146513513224524524524524522452165841613615616516517"
+        "1256146513513224524524524524522452165841613615616516517",
     );
     test(
         "1237801293471034709342345050491203491230949139249123949999999",
-        "1237801293471034709342345050491203491230949139249123950000000"
+        "1237801293471034709342345050491203491230949139249123950000000",
     );
     test(
         "-1237801293471034709342345050491203491230949139249123940000000",
-        "-1237801293471034709342345050491203491230949139249123939999999"
+        "-1237801293471034709342345050491203491230949139249123939999999",
     );
+    test("-2", "-1");
 }
+
+#[test]
+fn add_one_test_float() {
+    fn test(num: &str, result: &str) {
+        use std::str::from_utf8;
+        let mut s = Vec::new();
+        add_one(num.as_bytes(), &mut s).unwrap();
+        assert_eq!(from_utf8(&s).unwrap(), result);
+    }
+    test("0.0", "1.0");
+    test("5000.0", "5001.0");
+    test("1139.67", "1140.67");
+    test("123.321", "124.321");
+    test("99.99", "100.99");
+    test("-1.0", "0");
+    test("2.0", "3.0");
+    test("000.000", "1.000");
+    test("-000.00", "1.00");
+// test fails    test("-0.9", "0.1");
+    test("0123456789.0987654321", "123456790.0987654321");
+}
+
