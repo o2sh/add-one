@@ -72,13 +72,32 @@ pub fn add_one<T: io::Write>(digits: &[u8], output: &mut T) -> Result<(), io::Er
         if !prefix.is_empty() || new_digit != b'0' {
             output.write_all(&[new_digit])?;
         }
+    } else if minus && digits.len() > 0 && digits[0] == b'.' && !digits[1..].iter().all(|&d| d == b'0') {
+        output.write_all(b"0")?;
     } else {
         output.write_all(b"1")?;
     }
     for _ in 0..trailing.len() {
         output.write_all(if minus { b"9" } else { b"0" })?;
     }
-    output.write_all(&digits[z..])?;// prints the characters after decimal
+    if minus && z == 0 && digits.len() > 1 {
+        // write decimal
+        output.write_all(&digits[0..1])?;
+        let mut iter = digits[1..].iter().rev().peekable();
+        let mut decimal_digits = Vec::new();
+        while let Some(&b'0') = iter.peek() {
+            decimal_digits.push(*iter.next().unwrap());
+        }
+        if let Some(_) = iter.peek() {
+            decimal_digits.push(b'9' - *iter.next().unwrap() + b'0' + 1);
+        }
+        while let Some(_) = iter.peek() {
+            decimal_digits.push(b'9' - *iter.next().unwrap() + b'0');
+        }
+        output.write_all(decimal_digits.iter().rev().cloned().collect::<Vec<u8>>().as_slice())?;
+    } else {
+        output.write_all(&digits[z..])?;// prints the characters after decimal
+    }
     Ok(())
 }
 
@@ -140,7 +159,7 @@ fn add_one_test_float() {
     test("2.0", "3.0");
     test("000.000", "1.000");
     test("-000.00", "1.00");
-// test fails    test("-0.9", "0.1");
+    test("-0.9", "0.1");
     test("0123456789.0987654321", "123456790.0987654321");
 }
 
