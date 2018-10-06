@@ -1,7 +1,7 @@
 # add-one
 
-[![crate](https://img.shields.io/badge/crates.io-0.2.2-orange.svg)](https://crates.io/crates/add-one)
-[![documentation](https://img.shields.io/badge/docs-0.2.2-blue.svg)](https://docs.rs/add-one)
+[![crate](https://img.shields.io/badge/crates.io-1.0-orange.svg)](https://crates.io/crates/add-one)
+[![documentation](https://img.shields.io/badge/docs-1.0-blue.svg)](https://docs.rs/add-one)
 ![minimum rustc 1.26](https://img.shields.io/badge/rustc-%2B1.26-red.svg)
 [![Travis status](https://travis-ci.org/o2sh/add-one.svg?branch=master)](https://travis-ci.org/o2sh/add-one)
 
@@ -14,7 +14,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-add-one = "0.2.4"
+add-one = "1.0"
 ```
 
 and this to your crate root:
@@ -49,6 +49,9 @@ or
 $ cargo run 12
 $ 13
 ```
+## Thanks
+
+- [Contributors](https://github.com/o2sh/add-one/contributors)
 
 ## License
 
