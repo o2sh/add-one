@@ -14,7 +14,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-add-one = "0.2.2"
+add-one = "0.2.4"
 ```
 
 and this to your crate root:
