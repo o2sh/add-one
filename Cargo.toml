@@ -1,8 +1,8 @@
 [package]
-name = "add-one"
+authors = ["o2sh <ossama-hjaji@live.fr>"]
 description = "Adds one to a number"
-version = "1.0.0"
-authors = ["Ossama Hjaji"]
-readme = "README.md"
 license = "MIT"
+name = "add-one"
+readme = "README.md"
 repository = "https://github.com/o2sh/add-one"
+version = "1.0.0"
