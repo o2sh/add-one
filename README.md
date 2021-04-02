@@ -10,13 +10,11 @@
 ```rust
 use add_one::add_one;
 
-use std::str;
-
 fn main() {
     let mut bytes = Vec::new();
 
     match add_one("123".as_bytes(), &mut bytes) {
-        Ok(()) => println!("{}", str::from_utf8(&bytes).unwrap()),
+        Ok(()) => println!("{}", std::str::from_utf8(&bytes).unwrap()),
         Err(e) => {
             eprintln!("Error: {}", e);
         }
